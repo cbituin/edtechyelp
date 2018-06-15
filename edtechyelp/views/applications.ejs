@@ -1,15 +1,36 @@
 <% include partials/header %>
 
-<h1>This is the Applications page!</h1>
+<div class="container">
+	<header class="jumbotron">
+		<div class="container">
+			<h1>Welcome to EdTechYelp!</h1>
+			<p>Find the best educational technology app for your classroom!</p>
+			<p>Don't see your favorite EdTech tool?
+				<a class="btn btn-primary btn-lg" href="/applications/new">Click here to add your favorite.</a>
+			</p>
+		</div>
+	</header>
 
-<h3>Don't see your favorite EdTech tool?<a href="/applications/new">Click here to add your favorite.</a></h3>
 
+	<div class="row">
+		<div class="col-lg-12">
+			<h3>Trending Tools and Applications</h3>
+		</div>
+	</div>
 
-<% applications.forEach(function(application){ %>
-	<div>
-		<h4><%= application.name %></h4>
-		<img src="<%= application.image %>">
-	</div>					
-<% }) %>
+	<div class="row">
+		<% applications.forEach(function(application){ %>
+			<div class="col-md-3 col-sm-6">
+				<div class="thumbnail text-center">
+					<h4><%= application.name %></h4>
+					<img src="<%= application.image %>">
+					<h5><a href="https://<%= application.url %>" target="blank"><%= application.url %></a></h5>
+					<h5><%= application.summary %></h5>
+				</div>
+			</div>					
+		<% }) %>	
+	</div>
+
+</div>	
 
 <% include partials/footer %>

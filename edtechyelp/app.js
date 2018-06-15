@@ -3,9 +3,18 @@ var app = express();
 var bodyParser = require("body-parser");
 
 var applications = [
-		{name: "App # 1", image: "https://source.unsplash.com/hes6nUC1MVc"},
-		{name: "App # 2", image: "https://source.unsplash.com/hes6nUC1MVc"},
-		{name: "App # 3", image: "https://source.unsplash.com/hes6nUC1MVc"}
+		{name: "App # 1", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
+		{name: "App # 2", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
+		{name: "App # 3", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
+		{name: "App # 1", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
+		{name: "App # 2", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
+		{name: "App # 3", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
+		{name: "App # 1", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
+		{name: "App # 2", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
+		{name: "App # 3", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
+		{name: "App # 1", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
+		{name: "App # 2", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
+		{name: "App # 3", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
 	]
 	
 
@@ -24,7 +33,9 @@ app.post("/applications", function(req, res){
     //get data from form and add to applications array.
     var name = req.body.name;
     var image = req.body.image;
-    var newApplication = {name: name, image: image};
+    var summary = req.body.summary;
+    var url = req.body.url;
+    var newApplication = {name: name, image: image, summary: summary, url: url};
     applications.push(newApplication);
     //redirect back to applications page
     res.redirect("/applications");
