@@ -1,4 +1,8 @@
+<% include partials/header %>
+
 <h1>This is the Applications page!</h1>
+
+<h3>Don't see your favorite EdTech tool?<a href="/applications/new">Click here to add your favorite.</a></h3>
 
 
 <% applications.forEach(function(application){ %>
@@ -7,3 +11,5 @@
 		<img src="<%= application.image %>">
 	</div>					
 <% }) %>
+
+<% include partials/footer %>
