@@ -1,6 +1,23 @@
 var express = require("express");
 var app = express();
 
-app.listen(process.env.port, process.env.IP, function(){
+app.set("view engine", "ejs");
+
+app.get("/", function(req, res){
+    res.render("landing");
+});
+
+app.get("/applications", function(){
+	
+	//need to replace template applications with data from eduappcenter.com API
+	//htt
+	var applications = [
+		{name: "App # 1", image: ""},
+		{name: "App # 2", image: ""},
+		{name: "App # 3", image: ""}
+	]
+} )
+
+app.listen(process.env.PORT, process.env.IP, function(){
     console.log("The server has started!");
 })
