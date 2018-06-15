@@ -1,0 +1,9 @@
+<h1>This is the Applications page!</h1>
+
+
+<% applications.forEach(function(application){ %>
+	<div>
+		<h4><%= application.name %></h4>
+		<img src="<%= application.image %>">
+	</div>					
+<% }) %>
