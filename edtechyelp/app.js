@@ -38,11 +38,9 @@ app.get("/applications", function(req, res){
 		if(err){
 			console.log(err);
 		} else {
-			res.render("applications", {applications:allApplications});
+			res.render("index", {applications:allApplications});
 		}
 	});
-	
-	// res.render("applications", {applications: applications});
 });
 
 app.post("/applications", function(req, res){
@@ -53,8 +51,7 @@ app.post("/applications", function(req, res){
     var url = req.body.url;
     var newApplication = {name: name, image: image, summary: summary, url: url};
     // Create a new application and save to DB 
-   
-    Application.create(newApplication, function(err, newlyCreated){
+       Application.create(newApplication, function(err, newlyCreated){
     	if(err){
     		console.log(err);
     	} else {
@@ -65,6 +62,17 @@ app.post("/applications", function(req, res){
 
 app.get("/applications/new", function(req, res) {
     res.render("new.ejs");
+});
+
+app.get("/applications/:id", function(req, res){
+	//find the application with the provided id
+	Application.findById(req.params.id, function(err, foundApplication){
+		if(err){
+			console.log(err);
+		}	else {
+			res.render("show", {application: foundApplication});
+		}
+	});
 });
 
 app.listen(process.env.PORT, process.env.IP, function(){

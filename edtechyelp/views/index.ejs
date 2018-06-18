@@ -25,7 +25,9 @@
 					<h4><%= application.name %></h4>
 					<img src="<%= application.image %>">
 					<h5><a href="https://<%= application.url %>" target="blank"><%= application.url %></a></h5>
-					<h5><%= application.summary %></h5>
+					<p>
+						<a href="/applications/<%= application._id %>" class="btn btn-primary">More Info</a>
+					</p>
 				</div>
 			</div>					
 		<% }) %>	
