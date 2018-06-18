@@ -1,32 +1,48 @@
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
+var express 	= require("express"),
+	app 		= express(),
+	bodyParser	= require("body-parser"),
+	mongoose	= require("mongoose");
 
-var applications = [
-		{name: "App # 1", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
-		{name: "App # 2", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
-		{name: "App # 3", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
-		{name: "App # 1", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
-		{name: "App # 2", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
-		{name: "App # 3", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
-		{name: "App # 1", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
-		{name: "App # 2", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
-		{name: "App # 3", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
-		{name: "App # 1", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
-		{name: "App # 2", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
-		{name: "App # 3", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."},
-	]
-	
-
+mongoose.connect("mongodb://localhost/edtechyelp");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+
+// SCHEMA SETUP
+var applicationSchema = new mongoose.Schema({
+	name: String,
+	image: String,
+	summary: String,
+	url: String
+});
+
+var Application = mongoose.model("Application", applicationSchema);
+
+// Application.create(
+// 			{name: "App # 2", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."}
+// , function(err, application){
+// 		if(err){
+// 			console.log("There's an error!")
+// 		} else {
+// 			console.log("Newly create campground: ")
+// 			console.log(application)
+// 		}
+// 	});
 
 app.get("/", function(req, res){
     res.render("landing");
 });
 
 app.get("/applications", function(req, res){
-	res.render("applications", {applications: applications});
+	//Get all applications from DB
+	Application.find({}, function(err, allApplications){
+		if(err){
+			console.log(err);
+		} else {
+			res.render("applications", {applications:allApplications});
+		}
+	});
+	
+	// res.render("applications", {applications: applications});
 });
 
 app.post("/applications", function(req, res){
@@ -36,9 +52,15 @@ app.post("/applications", function(req, res){
     var summary = req.body.summary;
     var url = req.body.url;
     var newApplication = {name: name, image: image, summary: summary, url: url};
-    applications.push(newApplication);
-    //redirect back to applications page
-    res.redirect("/applications");
+    // Create a new application and save to DB 
+   
+    Application.create(newApplication, function(err, newlyCreated){
+    	if(err){
+    		console.log(err);
+    	} else {
+    		res.redirect("applications");
+    	}
+    });
 });
 
 app.get("/applications/new", function(req, res) {
