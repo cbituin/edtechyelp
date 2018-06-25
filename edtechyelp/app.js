@@ -8,6 +8,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
 // SCHEMA SETUP
+//Objects needed for import:
+// name
+// description
+// preview_url if "", redirect google.com search:for name of edtech.
+// banner_image_url
+
+
+
 var applicationSchema = new mongoose.Schema({
 	name: String,
 	image: String,
