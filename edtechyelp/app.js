@@ -1,7 +1,12 @@
 var express 	= require("express"),
 	app 		= express(),
 	bodyParser	= require("body-parser"),
-	mongoose	= require("mongoose");
+	mongoose	= require("mongoose"),
+	Application = require("./models/application"),
+	seedDB	= require("./seeds");
+	
+
+seedDB();
 
 mongoose.connect("mongodb://localhost/edtechyelp");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -16,14 +21,7 @@ app.set("view engine", "ejs");
 
 
 
-var applicationSchema = new mongoose.Schema({
-	name: String,
-	image: String,
-	summary: String,
-	url: String
-});
 
-var Application = mongoose.model("Application", applicationSchema);
 
 // Application.create(
 // 			{name: "App # 2", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."}
