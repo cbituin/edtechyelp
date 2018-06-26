@@ -1,40 +1,15 @@
 var express 	= require("express"),
 	app 		= express(),
 	bodyParser	= require("body-parser"),
-	mongoose	= require("mongoose");
+	mongoose	= require("mongoose"),
+	Application = require("./models/application"),
+	seedDB		= require("./seeds");
 
 mongoose.connect("mongodb://localhost/edtechyelp");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
-// SCHEMA SETUP
-//Objects needed for import:
-// name
-// description
-// preview_url if "", redirect google.com search:for name of edtech.
-// banner_image_url
-
-
-
-var applicationSchema = new mongoose.Schema({
-	name: String,
-	image: String,
-	summary: String,
-	url: String
-});
-
-var Application = mongoose.model("Application", applicationSchema);
-
-// Application.create(
-// 			{name: "App # 2", image: "https://source.unsplash.com/hes6nUC1MVc", summary: "App description.", url: "App url."}
-// , function(err, application){
-// 		if(err){
-// 			console.log("There's an error!")
-// 		} else {
-// 			console.log("Newly create campground: ")
-// 			console.log(application)
-// 		}
-// 	});
+seedDB();
 
 app.get("/", function(req, res){
     res.render("landing");
@@ -74,10 +49,11 @@ app.get("/applications/new", function(req, res) {
 
 app.get("/applications/:id", function(req, res){
 	//find the application with the provided id
-	Application.findById(req.params.id, function(err, foundApplication){
+	Application.findById(req.params.id).populate("comments").exec(function(err, foundApplication){
 		if(err){
 			console.log(err);
 		}	else {
+			console.log(foundApplication);
 			res.render("show", {application: foundApplication});
 		}
 	});
