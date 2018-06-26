@@ -6,9 +6,13 @@
 
 <p><%= application.summary %></p>
 
+<p>
+    <a class="btn btn-success" href="/applications/<%= application._id %>/comments/new">Add new review!</a>
+</p>
+
 <% application.comments.forEach(function(comment){ %>
     <p>
-        <strong><%= comment.author%></strong> - <%= comment.text %>
+        <strong><%= comment.author %></strong> - <%= comment.text %>
     </p>
 <% }) %>
 
