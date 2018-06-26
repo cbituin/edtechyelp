@@ -21,7 +21,7 @@ app.get("/applications", function(req, res){
 		if(err){
 			console.log(err);
 		} else {
-			res.render("index", {applications:allApplications});
+			res.render("applications/index", {applications:allApplications});
 		}
 	});
 });
@@ -44,7 +44,7 @@ app.post("/applications", function(req, res){
 });
 
 app.get("/applications/new", function(req, res) {
-    res.render("new.ejs");
+    res.render("applications/new");
 });
 
 app.get("/applications/:id", function(req, res){
@@ -54,10 +54,31 @@ app.get("/applications/:id", function(req, res){
 			console.log(err);
 		}	else {
 			console.log(foundApplication);
-			res.render("show", {application: foundApplication});
+			res.render("applications/show", {application: foundApplication});
 		}
 	});
 });
+
+//===================
+//COMMENTS ROUTES
+//===================
+
+app.get("/applications/:id/comments/new", function(req, res) {
+	Application.findById(req.params.id, function(err, application){
+		if(err){
+			console.log(err);
+		} else {
+			res.render("comments/new", {application: application});
+		}
+	})
+});
+
+app.post("/applications/:id/comments", function(req, res){
+	//lookup campground using ID
+	//create new comment
+	//connect new comment to campground
+	//redirect campground show page
+})
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("The server has started!");
