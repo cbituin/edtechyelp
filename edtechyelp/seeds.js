@@ -1,6 +1,6 @@
 var mongoose    = require("mongoose"),
-    Application = require("./models/application");
-    Comment     = require("./models/comment")
+    Application = require("./models/application"),
+    Comment     = require("./models/comment");
 
 var data = [
     {
@@ -21,12 +21,12 @@ var data = [
         summary: "This is the description section for this application. Bacon ipsum dolor amet filet mignon strip steak fatback, drumstick boudin landjaeger ball tip. Sausage beef ribs tenderloin rump ribeye cupim turducken hamburger strip steak meatloaf fatback. Shank pancetta turducken pork belly. Bresaola kevin burgdoggen, fatback doner cow porchetta bacon kielbasa.",
         url: "https://www.flipgrid.com"
     }
-    ];    
+    ];
 
 
 function seedDB(){
     
-    //Removing all the campgrounds
+    //Removing all the applications
     Application.remove({}, function(err){
         if(err){
             console.log(err);
@@ -65,4 +65,4 @@ function seedDB(){
     });
 }
 
-module.exports = seedDB();
+module.exports = seedDB;
