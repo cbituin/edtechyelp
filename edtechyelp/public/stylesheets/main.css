@@ -1,0 +1,13 @@
+.thumbnail img {
+    width: 100%;
+}
+
+.thumbnail {
+    padding: 0;
+}
+
+body {
+    background-color: rgb(99, 209, 62);
+    background-color: rgba(99, 209, 62, 0.5);
+}
+
