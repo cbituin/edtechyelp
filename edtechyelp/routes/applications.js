@@ -19,7 +19,11 @@ router.post("/applications", isLoggedIn, function(req, res){
     var image = req.body.image;
     var summary = req.body.summary;
     var url = req.body.url;
-    var newApplication = {name: name, image: image, summary: summary, url: url};
+    var author = {
+        id: req.user._id,
+        username: req.user.username
+    };
+    var newApplication = {name: name, image: image, summary: summary, url: url, author:author};
     // Create a new application and save to DB 
        Application.create(newApplication, function(err, newlyCreated){
         if(err){
