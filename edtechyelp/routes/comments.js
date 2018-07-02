@@ -24,6 +24,9 @@ router.post("/applications/:id/comments", isLoggedIn, function(req, res){
                 if(err){
                     console.log(err);
             } else {
+                comment.author.username = req.user.username;
+                comment.author.id = req.user.id;
+                comment.save();
                 application.comments.push(comment);
                 application.save();
                 res.redirect('/applications/' + application._id);

@@ -13,7 +13,7 @@ router.get("/applications", function(req, res){
     });
 });
 
-router.post("/applications", function(req, res){
+router.post("/applications", isLoggedIn, function(req, res){
     //get data from form and add to applications array.
     var name = req.body.name;
     var image = req.body.image;
@@ -30,7 +30,7 @@ router.post("/applications", function(req, res){
     });
 });
 
-router.get("/applications/new", function(req, res) {
+router.get("/applications/new", isLoggedIn, function(req, res) {
     res.render("applications/new");
 });
 
@@ -45,5 +45,12 @@ router.get("/applications/:id", function(req, res){
         }
     });
 });
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 module.exports = router;
