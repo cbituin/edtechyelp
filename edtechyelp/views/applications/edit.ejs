@@ -1,0 +1,22 @@
+<% include ../partials/header %>
+
+<div class="container">
+	<div class="row">
+	<h1 style="text-align: center;">Edit <%= application.name %></h1>
+	<h2 style="text-align: center;">Update the details for this application:</h2>
+	<div style="width: 40%; margin: 30px auto;">
+		<form action="/applications/<%= application._id %>?_method=PUT" method="POST">
+
+		    <div class="form-group"><input class="form-control" type="text" name="application[name]" value="<%=application.name%>"></div>
+		    <div class="form-group"><input class="form-control" type="text" name="application[image]" value="<%=application.image%>"></div>
+		    <div class="form-group"><input class="form-control" type="text" name="application[summary]" value="<%=application.summary%>"></div>
+		    <div class="form-group"><input class="form-control" type="test" name="application[url]" value="<%=application.url%>"></div>
+
+		    <button class="btn btn-lg btn-primary btn-block">Submit</button>
+		</form>
+			<a href="/applications">Go Back</a>
+	</div>
+	</div>		
+</div>
+
+<% include ../partials/footer %>

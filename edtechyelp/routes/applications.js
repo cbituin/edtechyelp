@@ -44,11 +44,33 @@ router.get("/applications/:id", function(req, res){
         if(err){
             console.log(err);
         }   else {
-            console.log(foundApplication);
             res.render("applications/show", {application: foundApplication});
         }
     });
 });
+
+//EDIT APPLICATION ROUTE
+router.get("/applications/:id/edit", function(req, res) {
+    Application.findById(req.params.id, function(err, foundApplication){
+       if(err){
+            res.redirect("/applications");
+       } else {
+            res.render("applications/edit", {application: foundApplication});
+       }
+    });
+});
+
+//UPDATE APPLICATION ROUTE
+router.put("/applications/:id", function(req, res) {
+    Application.findByIdAndUpdate(req.params.id, req.body.application, function(err, updatedCampground){
+       if(err){
+            res.redirect("/applications");
+       } else {
+            res.redirect("/applications/" + req.params.id);
+       }
+    });
+});
+
 
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
