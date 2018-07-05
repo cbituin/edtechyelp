@@ -49,7 +49,7 @@ router.get("/applications/:id", function(req, res){
     });
 });
 
-//EDIT APPLICATION ROUTE
+//EDIT APPLICATION
 router.get("/applications/:id/edit", function(req, res) {
     Application.findById(req.params.id, function(err, foundApplication){
        if(err){
@@ -59,6 +59,19 @@ router.get("/applications/:id/edit", function(req, res) {
        }
     });
 });
+
+//DESTROY THE APPLICATION
+router.delete("/applications/:id", function(req, res){
+
+    Application.findByIdAndRemove(req.params.id, function(err){
+        if(err){
+            res.redirect("/applications");
+        } else {
+            res.redirect("/applications");
+        }
+    })
+});
+
 
 //UPDATE APPLICATION ROUTE
 router.put("/applications/:id", function(req, res) {
