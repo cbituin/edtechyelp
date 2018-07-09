@@ -50,31 +50,15 @@ router.get("/applications/:id", function(req, res){
 });
 
 //EDIT APPLICATION
-router.get("/applications/:id/edit", function(req, res) {
-    Application.findById(req.params.id, function(err, foundApplication){
-       if(err){
-            res.redirect("/applications");
-       } else {
+router.get("/applications/:id/edit", checkApplicationOwnership, function(req, res) {
+        Application.findById(req.params.id, function(err, foundApplication){
             res.render("applications/edit", {application: foundApplication});
-       }
+                
+            });
     });
-});
 
-//DESTROY THE APPLICATION
-router.delete("/applications/:id", function(req, res){
-
-    Application.findByIdAndRemove(req.params.id, function(err){
-        if(err){
-            res.redirect("/applications");
-        } else {
-            res.redirect("/applications");
-        }
-    })
-});
-
-
-//UPDATE APPLICATION ROUTE
-router.put("/applications/:id", function(req, res) {
+//EDIT APPLICATION ROUTE
+router.put("/applications/:id", checkApplicationOwnership, function(req, res) {
     Application.findByIdAndUpdate(req.params.id, req.body.application, function(err, updatedCampground){
        if(err){
             res.redirect("/applications");
@@ -84,12 +68,45 @@ router.put("/applications/:id", function(req, res) {
     });
 });
 
+//DESTROY THE APPLICATION
+router.delete("/applications/:id", checkApplicationOwnership, function(req, res){
+
+    Application.findByIdAndRemove(req.params.id, function(err){
+        if(err){
+            res.redirect("/applications");
+        } else {
+            res.redirect("/applications");
+        }
+    });
+});
+
+
 
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
     res.redirect("/login");
+}
+
+function checkApplicationOwnership(req, res, next){
+    //is user logged in?
+    if(req.isAuthenticated()){
+        Application.findById(req.params.id, function(err, foundApplication){
+           if(err){
+                res.redirect("back");
+           } else {
+               //does user own the campground?
+               if(foundApplication.author.id.equals(req.user._id)) {
+                   next();
+               } else {
+                res.redirect("back");
+               }
+           }
+        });
+    } else {
+        res.redirect("back");
+    }
 }
 
 module.exports = router;
