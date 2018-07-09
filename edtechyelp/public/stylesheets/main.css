@@ -11,3 +11,6 @@ body {
     background-color: rgba(99, 209, 62, 0.5);
 }
 
+#delete-form{
+    display: inline;
+}
