@@ -1,6 +1,7 @@
 var express = require("express"),
     router  = express.Router(),
-    Application     = require("../models/application");
+    Application     = require("../models/application"),
+    middleware      = require("../middleware");
 
 router.get("/applications", function(req, res){
     //Get all applications from DB
@@ -13,7 +14,7 @@ router.get("/applications", function(req, res){
     });
 });
 
-router.post("/applications", isLoggedIn, function(req, res){
+router.post("/applications", middleware.isLoggedIn, function(req, res){
     //get data from form and add to applications array.
     var name = req.body.name;
     var image = req.body.image;
@@ -34,7 +35,7 @@ router.post("/applications", isLoggedIn, function(req, res){
     });
 });
 
-router.get("/applications/new", isLoggedIn, function(req, res) {
+router.get("/applications/new", middleware.isLoggedIn, function(req, res) {
     res.render("applications/new");
 });
 
@@ -50,7 +51,7 @@ router.get("/applications/:id", function(req, res){
 });
 
 //EDIT APPLICATION
-router.get("/applications/:id/edit", checkApplicationOwnership, function(req, res) {
+router.get("/applications/:id/edit", middleware.checkApplicationOwnership, function(req, res) {
         Application.findById(req.params.id, function(err, foundApplication){
             res.render("applications/edit", {application: foundApplication});
                 
@@ -58,7 +59,7 @@ router.get("/applications/:id/edit", checkApplicationOwnership, function(req, re
     });
 
 //EDIT APPLICATION ROUTE
-router.put("/applications/:id", checkApplicationOwnership, function(req, res) {
+router.put("/applications/:id", middleware.checkApplicationOwnership, function(req, res) {
     Application.findByIdAndUpdate(req.params.id, req.body.application, function(err, updatedCampground){
        if(err){
             res.redirect("/applications");
@@ -69,7 +70,7 @@ router.put("/applications/:id", checkApplicationOwnership, function(req, res) {
 });
 
 //DESTROY THE APPLICATION
-router.delete("/applications/:id", checkApplicationOwnership, function(req, res){
+router.delete("/applications/:id", middleware.checkApplicationOwnership, function(req, res){
 
     Application.findByIdAndRemove(req.params.id, function(err){
         if(err){
@@ -79,34 +80,5 @@ router.delete("/applications/:id", checkApplicationOwnership, function(req, res)
         }
     });
 });
-
-
-
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/login");
-}
-
-function checkApplicationOwnership(req, res, next){
-    //is user logged in?
-    if(req.isAuthenticated()){
-        Application.findById(req.params.id, function(err, foundApplication){
-           if(err){
-                res.redirect("back");
-           } else {
-               //does user own the campground?
-               if(foundApplication.author.id.equals(req.user._id)) {
-                   next();
-               } else {
-                res.redirect("back");
-               }
-           }
-        });
-    } else {
-        res.redirect("back");
-    }
-}
 
 module.exports = router;

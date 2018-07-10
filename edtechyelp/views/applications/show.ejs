@@ -23,7 +23,7 @@
                     
                     <% if(currentUser && application.author.id.equals(currentUser._id)){ %>
                         <a class="btn btn-warning" href="/applications/<%= application._id%>/edit">Edit</a>
-                        <form id="delete-form" action="/applications/<%= application._id%>?_method=DELETE" method="POST">
+                        <form class="delete-form" action="/applications/<%= application._id%>?_method=DELETE" method="POST">
                             <button class="btn btn-danger">Delete</button>
                         </form>
                     <% } %>                
@@ -42,11 +42,14 @@
                             <p>
                                <%= comment.text %> 
                             </p> 
-                            
-                            <a  class="btn btn-xs btn-warning" 
-                                href="/applications/<%= application._id %>/comments/<%= comment._id %>/edit">
-                            Edit</a>
-                            
+                            <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                                <a  class="btn btn-xs btn-warning" 
+                                    href="/applications/<%= application._id %>/comments/<%= comment._id %>/edit">
+                                Edit</a>
+                                <form class="delete-form" action="/applications/<%= application._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                    <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                                </form>
+                            <% } %>
                         </div>
                     </div>
                 <% }) %>
