@@ -23,6 +23,7 @@ router.post("/applications/:id/comments", middleware.isLoggedIn, function(req, r
         }else {
             Comment.create(req.body.comment, function(err, comment){
                 if(err){
+                    req.flash("error", "There was an issue with your request!");
                     console.log(err);
             } else {
                 comment.author.username = req.user.username;
@@ -30,6 +31,7 @@ router.post("/applications/:id/comments", middleware.isLoggedIn, function(req, r
                 comment.save();
                 application.comments.push(comment);
                 application.save();
+                req.flash("success", "Successfully added comment!");
                 res.redirect('/applications/' + application._id);
             } 
         });
@@ -66,6 +68,7 @@ router.delete("/applications/:id/comments/:comment_id", middleware.checkCommentO
         if(err){
             res.redirect("back");
         } else {
+            req.flash("success", "Comment deleted!");
             res.redirect("/applications/" + req.params.id);
         }
     });
